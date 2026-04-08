@@ -101,13 +101,13 @@ if (formContato && formFeedback) {
 
     const assunto = encodeURIComponent(`Contato pelo site — ${nome}`);
     const corpo = encodeURIComponent(linhas.join("\n"));
-    const mailto = `mailto:handtech.atendimentos@gmail.com?subject=${assunto}&body=${corpo}`;
+    const mailto = `mailto:contato@handtech.dev.br?subject=${assunto}&body=${corpo}`;
 
     formFeedback.hidden = false;
     formFeedback.classList.remove("erro", "sucesso");
     formFeedback.classList.add("sucesso");
     formFeedback.textContent =
-      "Abrindo seu aplicativo de e-mail com a mensagem pronta. Se nada abrir, copie o texto e envie para handtech.atendimentos@gmail.com ou use o WhatsApp ao lado.";
+      "Abrindo seu aplicativo de e-mail com a mensagem pronta. Se nada abrir, copie o texto e envie para contato@handtech.dev.br ou use o WhatsApp ao lado.";
 
     window.location.href = mailto;
   });
