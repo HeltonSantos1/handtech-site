@@ -1231,6 +1231,6 @@ section{
 
     .info-item a[href^="mailto"],
     .info-item a[href^="https://wa.me"]{
-        font-size: 0.78rem;
+        font-size: 1rem;
     }
 }
