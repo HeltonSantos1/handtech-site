@@ -80,35 +80,30 @@ if (formContato && formFeedback) {
       return;
     }
 
-    const nome = document.getElementById("nome").value.trim();
-    const empresa = document.getElementById("empresa").value.trim();
-    const email = document.getElementById("email").value.trim();
-    const telefone = document.getElementById("telefone").value.trim();
-    const interesse = document.getElementById("interesse");
-    const interesseTexto = interesse.options[interesse.selectedIndex].text;
-    const mensagem = document.getElementById("mensagem").value.trim();
+    const data = new FormData(formContato);
 
-    const linhas = [
-      `Nome: ${nome}`,
-      empresa ? `Empresa: ${empresa}` : null,
-      `E-mail: ${email}`,
-      telefone ? `Telefone: ${telefone}` : null,
-      `Interesse: ${interesseTexto}`,
-      "",
-      "Mensagem:",
-      mensagem,
-    ].filter(Boolean);
-
-    const assunto = encodeURIComponent(`Contato pelo site — ${nome}`);
-    const corpo = encodeURIComponent(linhas.join("\n"));
-    const mailto = `mailto:contato@handtech.dev.br?subject=${assunto}&body=${corpo}`;
-
-    formFeedback.hidden = false;
-    formFeedback.classList.remove("erro", "sucesso");
-    formFeedback.classList.add("sucesso");
-    formFeedback.textContent =
-      "Abrindo seu aplicativo de e-mail com a mensagem pronta. Se nada abrir, copie o texto e envie para contato@handtech.dev.br ou use o WhatsApp ao lado.";
-
-    window.location.href = mailto;
+    fetch(formContato.action, {
+      method: "POST",
+      body: data,
+      headers: { Accept: "application/json" },
+    })
+      .then((response) => {
+        formFeedback.hidden = false;
+        formFeedback.classList.remove("erro", "sucesso");
+        if (response.ok) {
+          formFeedback.classList.add("sucesso");
+          formFeedback.textContent = "Mensagem enviada com sucesso! Retornaremos em breve.";
+          formContato.reset();
+        } else {
+          formFeedback.classList.add("erro");
+          formFeedback.textContent = "Erro ao enviar. Tente novamente ou entre em contato pelo WhatsApp.";
+        }
+      })
+      .catch(() => {
+        formFeedback.hidden = false;
+        formFeedback.classList.add("erro");
+        formFeedback.textContent = "Erro ao enviar. Tente novamente ou entre em contato pelo WhatsApp.";
+      });
   });
 }
+
